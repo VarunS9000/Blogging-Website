@@ -1,0 +1,16 @@
+
+.footer-top{
+	background : #6495ED;
+	padding: 100px 0;
+}
+
+.container-footer{
+	background : #6495ED;
+}
+
+.segment a i{
+	font-size: 20px;
+	color: #fff;
+	padding: 10px 12px;
+	border-radius: 50%;
+}
