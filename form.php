@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Sign Up</title>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="bootstrap.min.css" >
   <link rel="stylesheet" type="text/css" href="style1.css">
+  <script type="text/javascript" src="jQuery-3.5.1.min.js"></script>
   
   
 </head>
@@ -19,6 +20,8 @@
     var email=document.getElementById("Email").value;
     var password=document.getElementById("password").value;
     var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var form=document.getElementById("signUp");
+
 
     
 
@@ -38,47 +41,19 @@
         alert("Password should have minimum 8 characters");
     }
 
+    else{
+      alert("SignUp successfull");
+      form.action="preview.php";
+      
+    }
+
     
 
     
 }
 </script>
 
-<?php 
-    $username="root";
-    $password="";
-    $db="varun";
-    $conn= new mysqli('localhost',$username,$password,$db) or die("Unable to connect");
 
-
-      
-
-    if(isset($_POST['insert'])){
-      $firstName=$_POST['firstName'];
-      $lastName=$_POST['lastName'];
-      $email=$_POST['Email'];
-      $userpassword=$_POST['password'];
-      
-      if(strlen(trim($firstName))==0 || strlen(trim($lastName))==0||!filter_var($email,FILTER_VALIDATE_EMAIL)||strlen(trim($userpassword))<8){
-        $firstName="";
-        $lastName="";
-        $email="";
-        $userpassword="";
-        $action="";
-
-       
-      }
-
-      else{
-        $action="preview.php";
-        $hashedPassword=hash('sha256',$userpassword);
-        $sql="INSERT INTO users(FName,LName,email,password) VALUES ('$firstName','$lastName','$email','$hashedPassword');";
-        mysqli_query($conn,$sql);
-      }
-
-    }
-
-  ?>
 
 <div class="container">
 
@@ -86,14 +61,14 @@
     <h1 class="text-center"> SIGN UP</h1>
     <hr class="w-25 pt-4">
 
-  <form action="<?php echo $action; ?>" method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" id="signUp">
   <div class="row">
     <div class="col">
-      <label for="exampleInputEmail1">First Name</label>
+      <label for="exampleInputEmail1">Full Name</label>
       <input type="text" class="form-control" placeholder="First name" name="firstName" id="First name">
     </div>
     <div class="col">
-      <label for="exampleInputEmail1">Last Name</label>
+      <label for="exampleInputEmail1">Age</label>
       <input type="text" class="form-control" placeholder="Last name" name="lastName" id="Last name">
     </div>
   </div>
@@ -121,6 +96,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  
 
 
   
