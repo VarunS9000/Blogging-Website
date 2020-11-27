@@ -1,8 +1,42 @@
 <?php
+setcookie("email",$_POST['Email'],time()+100);
+setcookie("fullName",$_POST['firstName'],time()+3600);
 session_start();
 if(!isset($_SESSION['sort'])){
   $_SESSION['sort']="";
 }
+
+$username="root";
+$password="";
+$db="varun";
+$conn= new mysqli('localhost',$username,$password,$db) or die("Unable to connect");
+
+
+      
+
+    if(isset($_POST['insert'])){
+      $firstName=$_POST['firstName'];
+      $lastName=$_POST['lastName'];
+      $email=$_POST['Email'];
+      $userpassword=$_POST['password'];
+      
+      if(strlen(trim($firstName))==0 || strlen(trim($lastName))==0||!filter_var($email,FILTER_VALIDATE_EMAIL)||strlen(trim($userpassword))<8){
+        $firstName="";
+        $lastName="";
+        $email="";
+        $userpassword="";
+       
+       
+      }
+
+      else{
+        
+        $hashedPassword=hash('sha256',$userpassword);
+        $sql="INSERT INTO users(FName,LName,email,password) VALUES ('$firstName','$lastName','$email','$hashedPassword');";
+        mysqli_query($conn,$sql);
+      }
+
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +45,7 @@ if(!isset($_SESSION['sort'])){
     <title>preview</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="preview.css">
+   
     <style>
       .footer-top{
 	background : #6495ED;
@@ -30,6 +65,10 @@ if(!isset($_SESSION['sort'])){
 
     </style>
 
+
+    
+
+
     
     
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,7 +79,8 @@ if(!isset($_SESSION['sort'])){
 
 
     <title>NavBar</title>
-</head>
+
+    </head>
 <body>
 <div class="d-flex" id="wrapper">
 
@@ -88,6 +128,9 @@ if(!isset($_SESSION['sort'])){
                 <li type="none"><button type="submit" class="btn btn-link" name="time">By Time</button></li>
               </ul>
               </form>
+              <form action="profile.php">
+              <li type="none"><button type="submit" class="btn btn-link" name="profile">By Likes</button> </li>
+              </form>
             </div>
           </div>
 
@@ -122,6 +165,8 @@ $password="";
 $db="varun";
 
 $conn= new mysqli('localhost',$user,$password,$db) or die("Unable to connect");
+
+echo $_COOKIE['fullName'];
 
 
 
@@ -262,7 +307,9 @@ $result= mysqli_query($conn,$sql);
           <a href="#" class="like"><i class="fa fa-heart"></i></a>' .$likes. ' Likes
           </div>
           <div class="col-lg-6 col-md-6 col-12">
-          <em>-By '.$authorval.'</em>
+          <form action="profile2.php">
+          <button type="submit" class="btn btn-link" value="'.$authorval.'" name="authorName">By '.$authorval.'</button>
+          </form>
           
           
           
