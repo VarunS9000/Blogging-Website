@@ -42,47 +42,44 @@ function validate(){
    
 }
 
-function loadImageFileAsURL()
-{
-    var filesSelected = document.getElementById("picture").files;
+
+
+
+function updateValidation(){
+
+    var content= document.getElementById("content").value;
+    var title= document.getElementById("title").value;
+    var author= document.getElementById("author").value;
+    var category= document.getElementById("category").value;
+    var form= document.getElementById("updateForm");
     
-    if (filesSelected.length > 0)
-    {
-        var fileToLoad = filesSelected[0];
-        console.log("In if");
 
-        if (fileToLoad.type.match("image.*"))
-        {
-            var fileReader = new FileReader();
-            fileReader.onload = function(fileLoadedEvent) 
-            {
-                var imageLoaded = document.createElement("img");
-                imageLoaded.src = fileLoadedEvent.target.result;
-                document.body.appendChild(imageLoaded);
-            };
-            fileReader.readAsDataURL(fileToLoad);
-        }
 
-        else{
-            alert("Please select appropriate file type");
-        }
+
+        
+
+    if(title.trim().length==0){
+        alert("Please enter Title of your blog ");
+    
     }
 
-    console.log(filesSelected[0]);
-}
+    else if(content.trim().length==0){
+        alert("Please enter Content of your blog");
+    }
 
-function Likes(){
-    console.log("hello");
-    var x= document.getElementById("likes").value;
-    var likes = parseInt(x);
-    var result = likes+1;
-    document.getElementById("newlike").innerHTML=result.toString()+" "+"Likes";
+    else if(author.trim().length==0){
+        alert("Please enter your name or write Anonymous");
+    }
+
+    else if(category.length==0){
+        alert("Please select a category");
     
-}
+    }
 
-function Unlike(){
-    var x= document.getElementById("likes").value;
-    var likes = parseInt(x);
-    var result = likes-1;
-    document.getElementById("newlike").innerHTML=result.toString()+" "+"Likes";
+    
+    else{
+        alert("Update successfull");
+        
+    }
+
 }

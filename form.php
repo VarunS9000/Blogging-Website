@@ -22,30 +22,16 @@
     var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     var form=document.getElementById("signUp");
 
+    localStorage.fullname=fname;
+    localStorage.email=email;
+    localStorage.password=password;
 
     
 
-    if(fname.trim().length==0){
-        alert("Enter First Name");
-    }
 
-    else if(lname.trim().length==0){
-        alert("Enter Last name");
-    }
+    
 
-    else if(!email.match(mailformat)){
-        alert("Enter valid email id");
-    }
-
-    else if(password.trim().length<8){
-        alert("Password should have minimum 8 characters");
-    }
-
-    else{
-      alert("SignUp successfull");
-      form.action="preview.php";
-      
-    }
+   
 
     
 
@@ -87,11 +73,13 @@
     <label class="form-check-label" for="exampleCheck1">Remember me</label>
   </div>
   <div class="text-center">
-  <button type="submit" class="btn btn-dark text-center" onclick="checking()" name="insert">Submit</button>
+  
   </form>
   </div>
 </div>
 </div>
+
+<button type="button" class="btn btn-dark text-center" onclick="checking()" name="insert">Submit</button>
     
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

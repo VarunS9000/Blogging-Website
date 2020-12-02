@@ -1,6 +1,13 @@
+
 <?php
-setcookie("email",$_POST['Email'],time()+100);
-setcookie("fullName",$_POST['firstName'],time()+3600);
+
+if(!isset($_COOKIE["email"]) ||!isset($_COOKIE["fullName"]) ){
+  setcookie("email",$_POST['Email'],time()+3600*24*30);
+  setcookie("fullName",$_POST['firstName'],time()+3600*24*30);
+
+}
+
+
 session_start();
 if(!isset($_SESSION['sort'])){
   $_SESSION['sort']="";
@@ -32,12 +39,13 @@ $conn= new mysqli('localhost',$username,$password,$db) or die("Unable to connect
       else{
         
         $hashedPassword=hash('sha256',$userpassword);
-        $sql="INSERT INTO users(FName,LName,email,password) VALUES ('$firstName','$lastName','$email','$hashedPassword');";
+        $sql="INSERT INTO users(FName,Age,email,password) VALUES ('$firstName','$lastName','$email','$hashedPassword');";
         mysqli_query($conn,$sql);
       }
 
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,120 +53,97 @@ $conn= new mysqli('localhost',$username,$password,$db) or die("Unable to connect
     <title>preview</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="preview.css">
-   
-    <style>
-      .footer-top{
-	background : #6495ED;
-	padding: 40px 0;
-}
-
-.container-footer{
-	background : #6495ED;
-}
-
-.segment a i{
-	font-size: 20px;
-	color: #fff;
-	padding: 10px 12px;
-	border-radius: 50%;
-}
-
-    </style>
-
-
-    
-
-
-    
-    
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
 
 
     <title>NavBar</title>
-
-    </head>
+</head>
 <body>
-<div class="d-flex" id="wrapper">
+  <div class="d-flex" id="wrapper">
 
-    <div class="bg-light border-right" id="sidebar-wrapper">
-
-        <div class="list-group list-group-flush">
-          <form action="preview.php" method="GET">
-          <button type="submit" class="btn btn-dark list-group-item list-group-item-action bg-light" name="category" value="home"><i class="fa fa-home"></i> Home</button>
-          </form>
-         
-                <li type="none" class="givespace">Your Creativity Our technology! <br>Together we can Bloggit <i class="fa fa-heart"></i></li>
-                
-            
-
+    <div class="bg-light border-right navbg" id="sidebar-wrapper">
+        <div>
+            <a href="#" class="navbar-brand space">Bloggit</a>
+        </div> 
+        <div class="list-group list-group-flush ">
+        <form action="preview.php">
+            <button type="submit"  class="btn btn-link user tcol navbg"><i class="fa fa-home icon_col"></i> Home</button>
+        </form>                          
         </div>
 
          <div class="sidebar-dropdown">
-            <a href="#" class="list-group-item list-group-item-action bg-light"><i class="fa fa-th-list"></i> Categories</a>
-            <div class="sidebar-submenu gs">
+            
+            <form action="profile.php">
+              <li type="none"><button type="submit" class="btn btn-link user tcol navbg" name="profile"><i class="fa fa-user icon_col"></i>Your Profile</button> </li>
+            </form>
+            <a href="#" class="list-group-item list-group-item-action tcol navbg"><i class="fa fa-th-list icon_col"></i> Categories</a>
+            <div class="sidebar-submenu">
             <form action="preview.php" method="GET">
               <ul>
-                <li type="none"><button type="submit" class="btn btn-link" value="food" name="category">Food</button> </li>
-                <li type="none"><button type="submit" class="btn btn-link" value="tech" name="category">Technology</button></li>
-                <li type="none"><button type="submit" class="btn btn-link" value="motivational" name="category">Motivational</button></li>
+                <li type="none"><button type="submit" class="btn btn-link categories_col" value="food" name="category">Food</button> </li>
+                <li type="none"><button type="submit" class="btn btn-link categories_col" value="tech" name="category">Technology</button></li>
+                <li type="none"><button type="submit" class="btn btn-link categories_col" value="motivational" name="category">Motivational</button></li>
             
-                <li type="none"><button type="submit" class="btn btn-link" name="category" value="science">Science Literature</button></li>
-                    <li type="none"><button type="submit" class="btn btn-link" name="category" value="travel">Travel</button></li>
+                <li type="none"><button type="submit" class="btn btn-link categories_col" name="category" value="science">Science Literature</button></li>
+                    <li type="none"><button type="submit" class="btn btn-link categories_col" name="category" value="travel">Travel</button></li>
                     
-                    <li type="none"><button type="submit" class="btn btn-link" name="category" value="stories">Stories</button></li>
+                    <li type="none"><button type="submit" class="btn btn-link categories_col" name="category" value="stories">Stories</button></li>
                 
-                    <li type="none"><button type="submit" class="btn btn-link" name="category" value="mythology">Mythology</button></li>
+                    <li type="none"><button type="submit" class="btn btn-link categories_col" name="category" value="mythology">Mythology</button></li>
                   
 
               </ul>
-              </form>
+            </form>
+              
             </div>
           </div>
 
         <div class="sidebar-dropdown">
-            <a href="#" class="list-group-item list-group-item-action bg-light"><i class="fa fa-sort"></i> Sort</a>
+            <a href="#" class="list-group-item list-group-item-action tcol navbg"><i class="fa fa-sort icon_col"></i> Sort</a>
             <div class="sidebar-submenu gs">
-              <form action="preview.php" method="POST">
               <ul>
-                <li type="none"><button type="submit" class="btn btn-link" name="likes">By Likes</button> </li>
-                <li type="none"><button type="submit" class="btn btn-link" name="time">By Time</button></li>
+                <li type="none"><a href="#" class="categories_col">By Likes</a> </li>
+                <li type="none"><a href="#" class="categories_col">By Time</a></li>
               </ul>
-              </form>
-              <form action="profile.php">
-              <li type="none"><button type="submit" class="btn btn-link" name="profile">By Likes</button> </li>
-              </form>
             </div>
           </div>
-
-    </div>
+          <div class="copyrights">
+            <p class=>Copyrights © 2020 </p>
+          
+          </div>
+          
+        </div>
 
     <div id="page-content-wrapper">
 
-        <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom">
-            <button class="btn btn-primary" id="menu-toggle"><span class="dark-blue-text"><i
-        class="fa fa-bars fa-1x"></i></span>
+        <nav class="navbar navbar-fixed-top navbar-expand navbar-light bg-light border-bottom ">
+            <button class="btn btn-primary button_rotate" id="menu-toggle"><span class="dark-blue-text"><i
+        class="fa fa-bars fa-1x icon_rotate"></i></span>
             </button>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-            <a href="#" class="navbar-brand space">BLOGGIT®</a>
+            
 
             <div class="collapse navbar-collapse">
                 <ul class = "navbar-nav ml-auto">
                     <li class="nav-item">
-                        <form action="upload.php">
-                        <button type="submit" class="btn btn-primary">Create your own <i class="fa fa-plus-square"></i></button>
+                        <form action="blogupload.php">
+                        <button type="submit" class="btn btn-primary butt">Create your own <i class="fa fa-plus-square"></i></button>
                         </form>
                     </li>
                 </ul>
             </div>
         </nav>
+
         <br>       
-        <?php
+  
+        <div class="container">
+          <div class="card-columns">
+          <?php
 
 $user="root";
 $password="";
@@ -166,7 +151,7 @@ $db="varun";
 
 $conn= new mysqli('localhost',$user,$password,$db) or die("Unable to connect");
 
-echo $_COOKIE['fullName'];
+
 
 
 
@@ -287,48 +272,14 @@ $result= mysqli_query($conn,$sql);
 
     
 
-    echo '<div class="container">
-    <div class="row mb-5">
-      <div class="col-lg-6 col-md-6 col-12">
-      <img class="img-fluid" src="data:image/jpeg;base64,'.base64_encode($imageval).'"/>
-      </div>
-  
-        <div class="col-lg-6 col-md-6 col-12 text-center">
-          <a href="#"><h2>'.$titleval.' </h2></a> 
-          <div class="bg-light text-dark">
-  
-            <p>'.$contentval.' </p>
-  
-        
-  
-        </div>
-        <div class="row mb-5">
-          <div class="col-lg-6 col-md-6 col-12">
-          <a href="#" class="like"><i class="fa fa-heart"></i></a>' .$likes. ' Likes
-          </div>
-          <div class="col-lg-6 col-md-6 col-12">
-          <form action="profile2.php">
-          <button type="submit" class="btn btn-link" value="'.$authorval.'" name="authorName">By '.$authorval.'</button>
-          </form>
-          
-          
-          
-          </div>
-
-          </div>
-
-          <form action="newblog.php" method="GET">
-          <button type="submit" class="btn btn-light" name="view" value='.$id.' >Check it out now  <i class="fa fa-paper-plane"></i></button>
-          
-          </form>
-
-        
-  
-  </div>
-  </div>
-  </div>
-  <hr>
-  ';
+    echo '<div class="card">
+    <img class="card-img-top" src="data:image/jpeg;base64,'.base64_encode($imageval).'">
+    <div class="card-body">
+      <h5 class="card-title">'.$titleval.'</h5>
+      <form action="blog.php" method="GET">
+      <button type="submit" class="button" name="view" value='.$id.'><i class="fa fa-paper-plane fa_btn"></i></button>
+    </div>
+  </div>';
   
 
     
@@ -354,38 +305,33 @@ $result= mysqli_query($conn,$sql);
       
     
 ?>
-    
-    <footer>
-	<div class="footer-top">
-		<div class="container-footer">
-			<div class="row">
-				<div class="col-md-5 col-sm-12 col-xs-12 segment">
-                    <h2>&copy 2020 Copyright:<a> BloggIt</a></h2><br>
-					<p>Share your secret recipes,write something that's on your mind, just found out you have a secret talent?</p>
-                    <p>Everything in the same place!,share your thoughts on BloggIt</p>
-                </div>
+              
+          </div>
+  
+          
+  
+            
+            
+      </div>
+  </body>
+  </html>
+  
+  
+  
 
-                <div class="col-md-5 col-sm-12 col-xs-12 segment">
-                	<h2>Follow Us</h2><br>
-                	<p>Please follow us in our social media page in order to keep in touch with us</p>
-                    <a href="https://www.facebook.com/BloggItOfficial"> <i class="fa fa-facebook"></i></a>
-                    <a href="https://www.twitter.com/BloggItOfficial"> <i class="fa fa-twitter"></i></a>
-                    <a href="https://www.instagram.com/BloggItOfficial"> <i class="fa fa-instagram"></i></a>
-                    <a href="https://www.pinterest.com/BloggItOfficial"> <i class="fa fa-pinterest"></i></a>
-                </div>
 
-                <div class="col-md-2 col-sm-12 col-xs-12 segment">
-                	<h2> Our Team</h2><br>
-                	<p>Sanjana Kumar</p>
-                    <p>Varun Shreedhar</p>
-                    <p>Srikrishna Veturi</p>
-                </div>
 
-			</div>
-		</div>
 
-	</div>
-</footer>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
     </div>
 
 </div>
@@ -406,7 +352,6 @@ $result= mysqli_query($conn,$sql);
       $("#wrapper").toggleClass("toggled");
     });
 </script>
-
 
 </body>
 </html>
